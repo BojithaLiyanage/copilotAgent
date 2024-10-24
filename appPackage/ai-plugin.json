@@ -127,8 +127,8 @@
         "response_semantics": {
           "data_path": "$.data.events",
           "properties": {
-            "title": "$[key]",
-            "subtitle": "$[value]"
+            "title": "$[0]",
+            "subtitle": "$[1].join(', ')"
           },
           "static_template": {
             "type": "AdaptiveCard",
