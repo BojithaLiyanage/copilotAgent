@@ -4,7 +4,7 @@
   "namespace": "eventBooking",
   "name_for_human": "Test2${{APP_NAME_SUFFIX}}",
   "description_for_human": "Search for coaches and update their calendars",
-  "description_for_model": "Plugin for searching coaches. You can update or create new calendar event with a selected coach.",
+  "description_for_model": "Plugin for searching coaches, coaches events. You can update or create new calendar event with a selected coach.",
   "functions": [
     {
       "name": "listRepairs",
@@ -119,6 +119,34 @@
           }
         }
       }
+    },
+    {
+      "name": "getCoachEvents",
+      "description": "Retrieves the events of a coach within a specific date range and time zone.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.data.events",
+          "properties": {
+            "title": "$[key]",
+            "subtitle": "$[value]"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Date: ${date}"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Times: ${times}"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "runtimes": [
@@ -131,7 +159,7 @@
         "url": "apiSpecificationFile/repair.yml",
         "progress_style": "ShowUsageWithInputAndOutput"
       },
-      "run_for_functions": ["listRepairs", "getCoachDetails"]
+      "run_for_functions": ["listRepairs", "getCoachDetails", "getCoachEvents"]
     }
   ],
   "capabilities": {
@@ -142,6 +170,9 @@
       },
       {
         "text": "Get details of a coach"
+      },
+      {
+        "text": "Get events of a coach"
       }
     ]
   }

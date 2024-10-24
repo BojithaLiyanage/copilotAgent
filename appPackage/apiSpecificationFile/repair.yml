@@ -95,3 +95,59 @@ paths:
                         type: string
         "404":
           description: Coach not found
+  /coach/{coach_id}/events:
+    get:
+      operationId: getCoachEvents
+      summary: Get events for a coach by date range and time zone
+      description: Returns events for a coach within a specific date range and time zone
+      parameters:
+        - name: coach_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: time_zone
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Coach events retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      events:
+                        type: object
+                        additionalProperties:
+                          type: array
+                          items:
+                            type: string
+                            description: Time range of the event
+                      coach_time_zone:
+                        type: string
+        "400":
+          description: Invalid request parameters
+        "500":
+          description: Failed to retrieve events

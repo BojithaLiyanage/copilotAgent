@@ -19,6 +19,7 @@ provision:
     with:
       run: echo "::set-teamsfx-env FUNC_NAME_REPAIR=repair";
         echo "::set-teamsfx-env FUNC_NAME_GETCOACH=coaches";
+        echo "::set-teamsfx-env FUNC_NAME_GETEVENTS=events";
         echo "::set-teamsfx-env FUNC_ENDPOINT=https://agenttest.in.ngrok.io/";
 
   # Build Teams app package with latest env value
