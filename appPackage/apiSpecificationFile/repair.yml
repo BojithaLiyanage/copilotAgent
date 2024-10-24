@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: The coach API service
+  description: A simple service to manage coaches and their calendars
+  version: 1.0.0
+servers:
+  - url: https://agenttest.in.ngrok.io/api
+    description: The repair api server
+paths:
+  /repairs:
+    get:
+      operationId: listRepairs
+      summary: List all repairs
+      description: Returns a list of repairs with their details and images
+      parameters:
+        - name: assignedTo
+          in: query
+          description: Filter repairs by who they're assigned to
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: A list of repairs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The unique identifier of the repair
+                        title:
+                          type: string
+                          description: The short summary of the repair
+                        description:
+                          type: string
+                          description: The detailed description of the repair
+                        assignedTo:
+                          type: string
+                          description: The user who is responsible for the repair
+                        date:
+                          type: string
+                          format: date-time
+                          description: The date and time when the repair is scheduled or completed
+                        image:
+                          type: string
+                          format: uri
+                          description: The URL of the image of the item to be repaired or the repair process
+  /coach/{id}:
+    get:
+      operationId: getCoachDetails
+      summary: Get details of a coach by ID
+      description: Returns coach details including first name, last name, email, phone number, image URL, and timezone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single coach
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Status message
+                  error:
+                    type: boolean
+                    description: Error flag
+                  data:
+                    type: object
+                    properties:
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      email:
+                        type: string
+                      phone_number:
+                        type: string
+                      image_url:
+                        type: string
+                        format: uri
+                      timezone:
+                        type: string
+        "404":
+          description: Coach not found
