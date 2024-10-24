@@ -147,6 +147,38 @@
           }
         }
       }
+    },
+    {
+      "name": "createEvent",
+      "description": "Creates a new event for a coach with the provided event details and user information.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$.message",
+          "properties": {
+            "title": "Event created successfully",
+            "subtitle": "$.data.coach_id"
+          },
+          "static_template": {
+            "type": "AdaptiveCard",
+            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+            "version": "1.5",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "Event successfully created for coach ID ${data.coach_id}"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Event starts at: ${data.event.start_time}"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Event ends at: ${data.event.end_time}"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "runtimes": [
@@ -159,7 +191,12 @@
         "url": "apiSpecificationFile/repair.yml",
         "progress_style": "ShowUsageWithInputAndOutput"
       },
-      "run_for_functions": ["listRepairs", "getCoachDetails", "getCoachEvents"]
+      "run_for_functions": [
+        "listRepairs",
+        "getCoachDetails",
+        "getCoachEvents",
+        "createEvent"
+      ]
     }
   ],
   "capabilities": {
@@ -173,6 +210,9 @@
       },
       {
         "text": "Get events of a coach"
+      },
+      {
+        "text": "Create an event"
       }
     ]
   }

@@ -151,3 +151,132 @@ paths:
           description: Invalid request parameters
         "500":
           description: Failed to retrieve events
+  /coach/calendar/event:
+    post:
+      operationId: createEvent
+      summary: Create a new event for a coach
+      description: This endpoint allows you to create a new event for a coach, including event details and user information.
+      requestBody:
+        description: JSON payload containing event details and user information.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coach_id:
+                  type: integer
+                  description: The unique ID of the coach
+                coach_time_zone:
+                  type: string
+                  description: Time zone of the coach
+                company_id:
+                  type: integer
+                  description: The company ID associated with the event
+                event:
+                  type: object
+                  description: Event details
+                  properties:
+                    end_time:
+                      type: string
+                      format: date-time
+                      description: End time of the event
+                    start_time:
+                      type: string
+                      format: date-time
+                      description: Start time of the event
+                    is_consented:
+                      type: boolean
+                      description: Whether the user has given consent for the event
+                    is_credit_deducted:
+                      type: boolean
+                      description: Whether credit has been deducted for the session
+                    meeting_id:
+                      type: integer
+                      nullable: true
+                      description: The meeting ID, if applicable
+                    reschedule:
+                      type: boolean
+                      description: Whether this event is a rescheduled event
+                    tripartite_email:
+                      type: string
+                      format: email
+                      description: The tripartite email address, if applicable
+                user:
+                  type: object
+                  description: Information about the user booking the event
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                      description: Email of the user
+                    first_name:
+                      type: string
+                      description: First name of the user
+                    last_name:
+                      type: string
+                      description: Last name of the user
+                    medium:
+                      type: string
+                      description: Medium through which the event is booked (e.g., website)
+                    user_comment:
+                      type: string
+                      description: User comments associated with the event
+                user_time_zone:
+                  type: string
+                  description: Time zone of the user
+
+      responses:
+        "200":
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Event created successfully"
+                  data:
+                    type: object
+                    properties:
+                      coach_id:
+                        type: integer
+                        description: The ID of the coach associated with the event
+                      event:
+                        type: object
+                        properties:
+                          start_time:
+                            type: string
+                            format: date-time
+                            description: Start time of the event
+                          end_time:
+                            type: string
+                            format: date-time
+                            description: End time of the event
+        "400":
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Missing required fields: coach_id, event, and user are required"
+                  error:
+                    type: boolean
+                    example: true
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to create event"
+                  error:
+                    type: boolean
+                    example: true
